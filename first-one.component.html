@@ -1,0 +1,45 @@
+<h2>formulaire avc un formbuilder</h2>
+<div>
+    <h3>affichage des taches a faire</h3>
+    <ul>
+        <div>
+            <button>Toutes</button>
+            <button>Terminées</button>
+            <button>Supprimées</button>
+        </div>
+        @for (tache of taches; track $index) {
+        <h4>tache numero : {{$index}} </h4>
+        <li>{{tache.nomTache}}</li>
+        <li>{{tache.quantite}}</li>
+        <input type="checkbox" formControlName="accomplie" (click)="oncheck()">
+        }
+        <li *ngFor="let tache of taches; let i = index">{{ tache.tache }}
+            <button (click)="deleteTask(i)">Delete</button>
+        </li>
+    </ul>
+
+</div>
+
+
+<div>
+    <!--formulaire ctrlé par formgroup-->
+    <form [formGroup]="newTache" (ngSubmit)="handleSubmitForm()">
+        <input type="text" formControlName="nomTache">
+        @if (!submitted && form['nomTache'].invalid){
+        <span>nom tache invalide</span>
+        }
+        <input type="number" formControlName="quantite">
+        @if (!submitted && form['quantite'].invalid){
+        <span>quantite invalide</span>
+        }
+        @if (newTache.valid) {
+        <button type="submit">Valider</button>
+        }
+        @else {
+        <div>
+            <p>nom de tache obligatoire</p>
+            <p>quantite obligatoire (minimum 0)</p>
+        </div>
+        }
+    </form>
+</div>
